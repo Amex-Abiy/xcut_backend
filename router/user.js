@@ -23,5 +23,4 @@ router.delete('/deleteReview/:barberShopId', isAuth, userController.deleteReview
 
 router.delete('/deleteRating/:barberShopId', isAuth, userController.deleteRating)
 
-
 module.exports = router;
