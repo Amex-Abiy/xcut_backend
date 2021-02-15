@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const BarberShopSchema = new mongoose.Schema({
     name: {
         required: true,
+        unique: [true, 'Barbershop with this name is present'],
         type: String
     },
     address: {
