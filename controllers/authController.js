@@ -36,7 +36,6 @@ exports.signup = asyncHandler(async(req, res, next) => {
 })
 
 exports.login = asyncHandler(async(req, res, next) => {
-    console.log('loging in')
     let { email, password } = req.body;
 
     let user = await User.findOne({ email }).select('+password')

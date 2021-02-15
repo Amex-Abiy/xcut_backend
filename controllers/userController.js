@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const User = require('../model/User');
 const BarberShop = require('../model/BarberShop');
 const asyncHandler = require('../middleware/asyncHandler');
@@ -5,18 +6,29 @@ const asyncHandler = require('../middleware/asyncHandler');
 // update password
 exports.editProfile = asyncHandler(async(req, res, next) => {
     let id = req.user.id
+    let { oldPassword, password } = req.body
 
-    let user = await User.findByIdAndUpdate(id, req.body)
-    if (!user) {
+    let user = await User.findById(id).select('+password')
+
+    // @ts-ignore
+    const isMatched = await bcrypt.compare(oldPassword, user.password)
+
+    if (!isMatched) {
         return res.status(200).json({
             status: false,
-            msg: 'Error updating profile'
+            msg: 'Old password is incorrect'
         })
     }
 
-    return res.status(204).json({
+    const salt = await bcrypt.genSalt(10);
+    password = await bcrypt.hash(password, salt);
+
+    user = await User.findByIdAndUpdate(id, { password })
+
+    return res.status(201).json({
         status: true,
-        msg: 'Profile updated successfully'
+        data: user,
+        msg: 'Password update successful'
     })
 })
 
@@ -61,8 +73,7 @@ exports.setAppointment = asyncHandler(async(req, res, next) => {
         })
     }
 
-    console.log(barberShop.appointments, id.toString())
-        // @ts-ignore
+    // @ts-ignore
     if (barberShop.appointments.includes(id)) {
         return res.status(200).json({
             status: false,

@@ -26,3 +26,26 @@ exports.addBarberShop = asyncHandler(async(req, res, next) => {
         data: barberShop
     })
 })
+
+exports.searchBarberShop = asyncHandler(async(req, res, next) => {
+    let searchKey = req.params.searchKey
+
+    let barberShop = await BarberShop.findOne({
+        $or: [
+            { name: { "$regex": searchKey, "$options": "i" } },
+            { address: { "$regex": searchKey, "$options": "i" } }
+        ]
+    })
+
+    if (!barberShop) {
+        return res.status(200).json({
+            status: false,
+            msg: 'No result found'
+        })
+    }
+
+    return res.status(200).json({
+        status: true,
+        data: barberShop
+    })
+})

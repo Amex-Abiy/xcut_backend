@@ -8,6 +8,7 @@ const isAuth = async(req, res, next) => {
         try {
             const userId = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
+            // @ts-ignore
             const user = await User.findById(userId.id);
             if (!user) {
                 return res.status(404).json({
