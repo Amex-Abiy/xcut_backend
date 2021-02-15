@@ -49,3 +49,21 @@ exports.searchBarberShop = asyncHandler(async(req, res, next) => {
         data: barberShop
     })
 })
+
+exports.getAllBarberShops = asyncHandler(async(req, res, next) => {
+
+    let barberShops = await BarberShop.find()
+    console.log(barberShops)
+
+    if (!barberShops) {
+        return res.status(200).json({
+            status: false,
+            msg: 'No BarberShops found'
+        })
+    }
+
+    return res.status(200).json({
+        status: true,
+        data: barberShops
+    })
+})
