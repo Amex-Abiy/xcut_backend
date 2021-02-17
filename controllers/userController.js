@@ -3,6 +3,24 @@ const User = require('../model/User');
 const BarberShop = require('../model/BarberShop');
 const asyncHandler = require('../middleware/asyncHandler');
 
+
+exports.getProfile = asyncHandler(async(req, res, next) => {
+    let id = req.user.id
+
+    let user = await User.findById(id)
+    if (!user) {
+        return res.status(201).json({
+            status: true,
+            msg: 'User profile not found'
+        })
+    }
+
+    return res.status(201).json({
+        status: true,
+        data: user,
+    })
+})
+
 // update password
 exports.editProfile = asyncHandler(async(req, res, next) => {
     let id = req.user.id
@@ -29,6 +47,33 @@ exports.editProfile = asyncHandler(async(req, res, next) => {
         status: true,
         data: user,
         msg: 'Password update successful'
+    })
+})
+
+exports.deleteProfile = asyncHandler(async(req, res, next) => {
+    let id = req.user.id
+
+    let user = await User.findById(id)
+    if (!user) {
+        return res.status(201).json({
+            status: true,
+            msg: 'User profile not found'
+        })
+    }
+
+    await User.findByIdAndDelete(id, null, (error, user) => {
+        if (error) {
+            return res.status(201).json({
+                status: false,
+                msg: 'Error deleting profile'
+            })
+        } else {
+            return res.status(201).json({
+                status: true,
+                data: user,
+                msg: 'Profile deleted'
+            })
+        }
     })
 })
 

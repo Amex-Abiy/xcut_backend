@@ -10,6 +10,10 @@ const BarberShopSchema = new mongoose.Schema({
         required: true,
         type: String
     },
+    image: {
+        required: true,
+        type: String
+    },
     rating: {
         // {user: mongoose.Schema.Types.ObjectId, rating: smthing}
         type: [Object],

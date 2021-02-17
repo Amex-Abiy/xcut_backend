@@ -5,7 +5,11 @@ const isAuth = require('../middleware/isAuth');
 
 const router = express.Router();
 
+router.get('/getProfile', isAuth, userController.getProfile)
+
 router.put('/editProfile', isAuth, userController.editProfile)
+
+router.delete('/deleteProfile', isAuth, userController.deleteProfile)
 
 router.post('/addFavorite/:barberShopId', isAuth, userController.addFavorite)
 
