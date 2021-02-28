@@ -3,6 +3,7 @@ const barberController = require('../controllers/barberController');
 
 const router = express.Router();
 
+// only for adding mock data, not used in frontend
 router.post('/addBarberShop', barberController.addBarberShop)
 
 router.get('/getAllBarberShops', barberController.getAllBarberShops)

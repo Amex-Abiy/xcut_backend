@@ -30,7 +30,7 @@ exports.addBarberShop = asyncHandler(async(req, res, next) => {
 exports.searchBarberShop = asyncHandler(async(req, res, next) => {
     let searchKey = req.params.searchKey
 
-    let barberShop = await BarberShop.findOne({
+    let barberShop = await BarberShop.find({
         $or: [
             { name: { "$regex": searchKey, "$options": "i" } },
             { address: { "$regex": searchKey, "$options": "i" } }

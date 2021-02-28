@@ -101,6 +101,7 @@ exports.addFavorite = asyncHandler(async(req, res, next) => {
 
     return res.status(201).json({
         status: true,
+        data: user,
         msg: 'Added to favorite'
     })
 })
@@ -145,9 +146,9 @@ exports.addReview = asyncHandler(async(req, res, next) => {
     const { id, email } = req.user
     const barberShopId = req.params.barberShopId
 
-    let { message } = req.body
+    let { message, rating } = req.body
 
-    let barberShop = await BarberShop.findByIdAndUpdate(barberShopId, { $push: { review: { user: id, email, review: message } } })
+    let barberShop = await BarberShop.findByIdAndUpdate(barberShopId, { $push: { review: { user: id, email, review: message, rating } } })
 
     if (!barberShop) {
         return res.status(200).json({
@@ -156,8 +157,11 @@ exports.addReview = asyncHandler(async(req, res, next) => {
         })
     }
 
+    let barberShops = await BarberShop.find()
+
     return res.status(201).json({
         status: true,
+        data: barberShops,
         msg: `Review added successfully`
     })
 })
@@ -187,6 +191,7 @@ exports.removeFavorite = asyncHandler(async(req, res, next) => {
 
     return res.status(201).json({
         status: true,
+        data: user,
         msg: 'Removed from favorite'
     })
 })
@@ -232,7 +237,7 @@ exports.deleteReview = asyncHandler(async(req, res, next) => {
     let barberShopId = req.params.barberShopId;
 
     // @ts-ignore
-    let barberShop = await BarberShop.findByIdAndUpdate(barberShopId, { $pull: { review: { user: id } } })
+    let barberShop = await BarberShop.findByIdAndUpdate(barberShopId, { $pull: { review: { user: id }, rating: { user: id } } })
 
     if (!barberShop) {
         return res.status(200).json({
@@ -241,8 +246,11 @@ exports.deleteReview = asyncHandler(async(req, res, next) => {
         })
     }
 
+    let barberShops = await BarberShop.find()[0]
+
     return res.status(201).json({
         status: true,
+        data: barberShops,
         msg: 'Review deleted'
     })
 

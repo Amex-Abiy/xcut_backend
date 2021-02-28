@@ -14,11 +14,11 @@ const BarberShopSchema = new mongoose.Schema({
         required: true,
         type: String
     },
-    rating: {
-        // {user: mongoose.Schema.Types.ObjectId, rating: smthing}
-        type: [Object],
-        default: []
-    },
+    // rating: {
+    //     // {user: mongoose.Schema.Types.ObjectId, rating: smthing}
+    //     type: [Object],
+    //     default: []
+    // },
     appointments: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'User',
