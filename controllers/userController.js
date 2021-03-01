@@ -90,7 +90,7 @@ exports.addFavorite = asyncHandler(async(req, res, next) => {
         })
     }
 
-    let user = await User.findOneAndUpdate(id, { $push: { favorites: barberShopId } }, { new: true })
+    let user = await User.findOneAndUpdate(id, { $push: { favorites: barberShop.name } }, { new: true })
 
     if (!user) {
         return res.status(200).json({
