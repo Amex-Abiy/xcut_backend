@@ -13,8 +13,9 @@ const UserSchema = new mongoose.Schema({
         minlength: [8, 'Password should be at least 8 characters long']
     },
     favorites: {
-        type: [String],
-        ref: 'BarberShop',
+        // {id: barberShopId, name: barberShopName }
+        type: [Object],
+        // ref: 'BarberShop',
         default: []
     },
     createdAt: {
